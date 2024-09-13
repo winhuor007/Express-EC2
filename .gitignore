@@ -1,0 +1,8 @@
+node_modules/
+
+# Ignore environment files
+src/configs/.env.development
+build/configs/.env.local
+
+
+.DS_Store 

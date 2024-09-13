@@ -1,0 +1,338 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"IItem": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"category": {
+						"type": "string"
+					},
+					"price": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"name",
+					"category",
+					"price"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ProductPaginatedResponse": {
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"data": {
+						"properties": {
+							"currentPage": {
+								"type": "number",
+								"format": "double"
+							},
+							"totalPages": {
+								"type": "number",
+								"format": "double"
+							},
+							"totalItems": {
+								"type": "number",
+								"format": "double"
+							}
+						},
+						"additionalProperties": {
+							"anyOf": [
+								{
+									"items": {
+										"$ref": "#/components/schemas/IItem"
+									},
+									"type": "array"
+								},
+								{
+									"type": "number",
+									"format": "double"
+								}
+							]
+						},
+						"required": [
+							"currentPage",
+							"totalPages",
+							"totalItems"
+						],
+						"type": "object"
+					}
+				},
+				"required": [
+					"message",
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ProductGetAllRequest": {
+				"properties": {
+					"page": {
+						"type": "number",
+						"format": "double"
+					},
+					"limit": {
+						"type": "number",
+						"format": "double"
+					},
+					"filter": {
+						"type": "string"
+					},
+					"sort": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ProductResponse": {
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"data": {
+						"$ref": "#/components/schemas/IItem"
+					}
+				},
+				"required": [
+					"message",
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ProductCreateRequest": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"category": {
+						"type": "string"
+					},
+					"price": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"name",
+					"category",
+					"price"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ProductUpdateRequest": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"category": {
+						"type": "string"
+					},
+					"price": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "express-part-01",
+		"version": "1.0.0",
+		"license": {
+			"name": "MIT"
+		},
+		"contact": {}
+	},
+	"paths": {
+		"/v1/products": {
+			"get": {
+				"operationId": "GetAllProducts",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ProductPaginatedResponse"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "filter",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "sort",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"post": {
+				"operationId": "CreateItem",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ProductResponse"
+								}
+							}
+						}
+					},
+					"201": {
+						"description": "Created Success"
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ProductCreateRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/v1/products/{id}": {
+			"get": {
+				"operationId": "GetItemById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ProductResponse"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateItem",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ProductResponse"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ProductUpdateRequest"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteItemById",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}
