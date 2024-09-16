@@ -97,6 +97,7 @@ jobs:
             export NVM_DIR="/home/ubuntu/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
+            # ------------
             # Ensure Node.js and NPM are installed
             if ! type node > /dev/null 2>&1; then
               echo "Node.js not found. Installing Node.js..."
@@ -104,7 +105,7 @@ jobs:
               nvm use 20
               nvm alias default 20
             fi
-            # ----------
+
             # Ensure Yarn and PM2 are installed
             if ! command -v yarn &> /dev/null; then
               echo "Yarn not found. Installing Yarn..."
@@ -121,6 +122,8 @@ jobs:
 
             # Install production dependencies
             yarn install --production
+            
+
             # Restart or start the application
             if pm2 show product-service > /dev/null; then
               echo "Application is running. Restarting..."
