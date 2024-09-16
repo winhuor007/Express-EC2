@@ -4,14 +4,14 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "test": "jest",
     "tsoa:gen": "tsoa spec && tsoa routes",
     "dev": "yarn tsoa:gen && nodemon src/server.ts",
     "build": "node build-script.js",
-    "start:local": "node ./build/server.js",
+    "start:local": "pm2 restart ecosystem.config.local.js || pm2 start ecosystem.config.local.js",
     "start": "pm2 start ecosystem.config.js",
     "restart": "pm2 reload ecosystem.config.js",
-    "db:insert": "ts-node src/database/scripts/insert-data.ts",
-    "run:js": "NODE_ENV=development node build/server.js"
+    "db:insert": "ts-node src/database/scripts/insert-data.ts"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
