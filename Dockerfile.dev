@@ -19,5 +19,5 @@ COPY tsoa.json ./
 # Expose the application's port
 EXPOSE 3000
 
-# Command to run the application
+# Command to run the applications
 CMD ["npm", "run", "dev"]
